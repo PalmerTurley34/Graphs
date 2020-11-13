@@ -68,7 +68,16 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass
+        visited = set()
+        self.dft_recursive_helper(starting_vertex, visited)
+
+    def dft_recursive_helper(self, curr_vertex, visited):
+        print(curr_vertex)
+        visited.add(curr_vertex)
+        for neighbor in self.get_neighbors(curr_vertex):
+            if neighbor not in visited:
+                self.dft_recursive_helper(neighbor, visited)
+
 
     def bfs(self, starting_vertex, destination_vertex):
         """
@@ -117,8 +126,21 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
 
+        visited = set()
+        return self.dfs_recursive_helper([starting_vertex], destination_vertex, visited)
+
+    def dfs_recursive_helper(self, curr_path, destination_vertex, visited):
+        if curr_path[-1] == destination_vertex:
+            return curr_path
+        visited.add(curr_path[-1])
+        for neighbor in self.get_neighbors(curr_path[-1]):
+            if neighbor not in visited:
+                new_path = curr_path + [neighbor]
+                result =  self.dfs_recursive_helper(new_path, destination_vertex, visited)
+                if len(result) > 0:
+                    return result
+        return []
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
     # https://github.com/LambdaSchool/Graphs/blob/master/objectives/breadth-first-search/img/bfs-visit-order.png
